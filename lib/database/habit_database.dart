@@ -44,11 +44,11 @@ class HabitDatabase extends ChangeNotifier {
     await isar.writeTxn(() => isar.habits.put(newHabit));
 
     // re-read from database
-    readHabit();
+    readHabits();
   }
 
   // Read
-  Future<void> readHabit() async {
+  Future<void> readHabits() async {
     // fetch all habits from db
     List<Habit> fetchedHabits = await isar.habits.where().findAll();
 
@@ -90,7 +90,7 @@ class HabitDatabase extends ChangeNotifier {
     }
 
     // re-read from db
-    readHabit();
+    readHabits();
   }
 
   // UPDATE - edit habit name
@@ -103,7 +103,7 @@ class HabitDatabase extends ChangeNotifier {
         await isar.habits.put(habit);
       });
     }
-    readHabit();
+    readHabits();
   }
 
   // DELETE
@@ -112,6 +112,6 @@ class HabitDatabase extends ChangeNotifier {
       await isar.habits.delete(id);
     });
 
-    readHabit();
+    readHabits();
   }
 }
