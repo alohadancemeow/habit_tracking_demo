@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:habit_tracking_demo/theme/theme_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:habit_tracking_demo/components/my_drower.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -10,20 +9,30 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final TextEditingController textController = TextEditingController();
+
+  // create new habit
+  void createNewHabit() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        content: TextField(
+          controller: textController,
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: Drawer(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        child: Center(
-          child: Switch(
-            value: Provider.of<ThemeProvider>(context).isDarkMode,
-            onChanged: (value) =>
-                Provider.of<ThemeProvider>(context, listen: false)
-                    .toggleTheme(),
-          ),
-        ),
+      drawer: const MyDrawer(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: createNewHabit,
+        elevation: 0,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        child: const Icon(Icons.add),
       ),
     );
   }

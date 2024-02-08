@@ -9,7 +9,7 @@ class HabitDatabase extends ChangeNotifier {
 
   // Open Isar instance
   static Future<void> innitialize() async {
-    final dir = await getApplicationCacheDirectory();
+    final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
       [HabitSchema, AppSettingsSchema],
       directory: dir.path,
@@ -21,7 +21,7 @@ class HabitDatabase extends ChangeNotifier {
     final existingSettings = await isar.appSettings.where().findFirst();
 
     if (existingSettings == null) {
-      final settings = AppSettings()..firstLaunceDate = DateTime.now();
+      final settings = AppSettings()..firstLaunchDate = DateTime.now();
       await isar.writeTxn(() => isar.appSettings.put(settings));
     }
   }
@@ -29,7 +29,7 @@ class HabitDatabase extends ChangeNotifier {
   // Get first date of app startup (for heatmap)
   Future<DateTime?> getFirstLaunchDate() async {
     final settings = await isar.appSettings.where().findFirst();
-    return settings?.firstLaunceDate;
+    return settings?.firstLaunchDate;
   }
 
   // list of habits
