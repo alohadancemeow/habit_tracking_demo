@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracking_demo/pages/home.dart';
-import 'package:habit_tracking_demo/theme/light_mode.dart';
 import 'package:habit_tracking_demo/theme/theme_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -20,8 +19,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Habit Tracking Demo',
+      debugShowCheckedModeBanner: false,
       home: const HomePage(),
-      theme: lightMode,
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }
