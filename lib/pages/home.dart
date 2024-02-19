@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracking_demo/components/my_drower.dart';
+import 'package:habit_tracking_demo/components/my_habit_tile.dart';
 import 'package:habit_tracking_demo/database/habit_database.dart';
 import 'package:habit_tracking_demo/models/habit.dart';
 import 'package:habit_tracking_demo/util/habit_util.dart';
@@ -55,6 +56,14 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  // check habit off
+  void checkHabitOff(bool? value, Habit habit) {
+    // update habit completion stutus
+    if (value != null) {
+      context.read<HabitDatabase>().updateHabitCompletion(habit.id, value);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,13 +72,14 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: createNewHabit,
         elevation: 0,
-        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        // backgroundColor: Theme.of(context).colorScheme.tertiary,
         child: const Icon(Icons.add),
       ),
       body: _buildHabitList(),
     );
   }
 
+  // build habit list
   Widget _buildHabitList() {
     final habitDatabase = context.watch<HabitDatabase>();
 
@@ -82,8 +92,22 @@ class _HomePageState extends State<HomePage> {
 
         bool isCompletedToday = isHabitCompletedTOday(habit.completedDays);
 
-        return ListTile(title: Text(habit.name));
+        return MyHabitTile(
+          text: habit.name,
+          isCompleted: isCompletedToday,
+          onChnaged: (value) => checkHabitOff(value, habit),
+        );
       },
     );
   }
 }
+
+// bool isHabitCompletedTOday(List<DateTime> completedDay) {
+//   final today = DateTime.now();
+
+//   return completedDay.any((date) =>
+//       date.year == today.year &&
+//       date.month == today.month &&
+//       date.day == today.day);
+// }
+

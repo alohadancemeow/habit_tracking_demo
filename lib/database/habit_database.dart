@@ -8,11 +8,12 @@ class HabitDatabase extends ChangeNotifier {
   static late Isar isar;
 
   // Open Isar instance
-  static Future<void> innitialize() async {
+  static Future<void> initialize() async {
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
       [HabitSchema, AppSettingsSchema],
       directory: dir.path,
+      inspector: true,
     );
   }
 
